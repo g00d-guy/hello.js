@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<script src="../src/hello.js"></script>
+<script src="../src/hello.then.js"></script>
+<script src="../src/modules/vkontakte.js"></script>
+
+<title>hello( vkontakte )</title>
+<h1>hello( vkontakte )</h1>
+
+<button id='login' onclick="login('vkontakte');">VKontakte</button><br>
+<div id="result"></div>
+<script class="pre">
+function login(network){
+  // Twitter instance
+  var vkontakte = hello(network);
+  // Login
+  vkontakte.login({scope:'email,offline_access'})/*.then( function(r) {
+    console.dir(vkontakte.getAuthResponse());
+    return vkontakte.api('me');
+  })*/.then(function() {
+    vkontakte.api('me').then(function(p) {
+      document.getElementById('result').innerHTML = "<br><img src='"+ p.thumbnail + "' width=100/><br>Connected to "+ network+" as " + p.name;
+    });
+  }, function(e) {
+    document.getElementById('result').innerHTML = "Error: " + e.error.message;
+  });
+}
+</script>
+
+<script class="pre">
+  hello.init({
+    'vkontakte': '4697761'
+  });
+</script>
