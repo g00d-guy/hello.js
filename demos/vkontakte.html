@@ -10,13 +10,16 @@
 <div id="result"></div>
 <script class="pre">
 function login(network){
-  // Twitter instance
   var vkontakte = hello(network);
-  // Login
-  vkontakte.login({scope:'email,offline_access'})/*.then( function(r) {
+  vkontakte.login({
+    force: true,
+    display:'popup',
+    state: 'klyhb79gb78gbi',
+    scope:'email,offline_access'/*,
+    response_type:'code',
+    oauth_proxy: 'http://bonustab.local:8080/login/proxy'*/
+  }, function() {console.log('logged in!')}).then(function(r) {
     console.dir(vkontakte.getAuthResponse());
-    return vkontakte.api('me');
-  })*/.then(function() {
     vkontakte.api('me').then(function(p) {
       document.getElementById('result').innerHTML = "<br><img src='"+ p.thumbnail + "' width=100/><br>Connected to "+ network+" as " + p.name;
     });
@@ -28,6 +31,6 @@ function login(network){
 
 <script class="pre">
   hello.init({
-    'vkontakte': '4697761'
+    'vkontakte': '3422567'
   });
 </script>

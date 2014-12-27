@@ -3497,7 +3497,10 @@ hello.init({
 			'me/albums' : 'me/albums',
 			'me/album' : '@{id}/photos',
 			'me/photos' : 'me/photos',
-			'me/photo' : '@{id}'
+			'me/photo' : '@{id}',
+			
+			'friend/albums' : '@{id}/albums',
+			'friend/photos' : '@{id}/photos'
 
 			// PAGINATION
 			// https://developers.facebook.com/docs/reference/api/pagination/
@@ -4638,7 +4641,9 @@ hello.init({
 			'me/photos' : 'users/self/media/recent?min_id=0&count=@{limit|100}',
 			'me/friends' : 'users/self/follows?count=@{limit|100}',
 			'me/following' : 'users/self/follows?count=@{limit|100}',
-			'me/followers' : 'users/self/followed-by?count=@{limit|100}'
+			'me/followers' : 'users/self/followed-by?count=@{limit|100}',
+			
+			'friend/photos' : 'users/@{id}/media/recent?min_id=0&count=@{limit|100}'
 		},
 
 		post : {
@@ -4743,6 +4748,7 @@ function formatUser(o){
 	o.last_name = o.lastName;
 	o.name = o.formattedName || (o.first_name + ' ' + o.last_name);
 	o.thumbnail = o.pictureUrl;
+	o.email = o.emailAddress;
 }
 
 
@@ -4798,7 +4804,7 @@ hello.init({
 		base	: "https://api.linkedin.com/v1/",
 
 		get : {
-			"me"			: 'people/~:(picture-url,first-name,last-name,id,formatted-name)',
+			"me"			: 'people/~:(picture-url,first-name,last-name,id,formatted-name,email-address)',
 			"me/friends"	: 'people/~/connections?count=@{limit|500}',
 			"me/followers"	: 'people/~/connections?count=@{limit|500}',
 			"me/following"	: 'people/~/connections?count=@{limit|500}',
@@ -4818,7 +4824,7 @@ hello.init({
 				};
 
 				if(p.data.id){
-					
+
 					data["attribution"] = {
 						"share": {
 							"id": p.data.id
@@ -4828,10 +4834,12 @@ hello.init({
 				}
 				else{
 					data["comment"] = p.data.message;
-					data["content"] = {
-						"submitted-url": p.data.link,
-						"submitted-image-url": p.data.picture
-					};
+					if (p.data.picture && p.data.link) {
+						data["content"] = {
+							"submitted-url": p.data.link,
+							"submitted-image-url": p.data.picture
+						};
+					}
 				}
 
 				p.data = JSON.stringify(data);
@@ -5301,6 +5309,52 @@ function arrayToDataResponse(res){
 
 }
 
+
+})(hello);
+
+//
+// VKontakte
+//
+(function(hello){
+
+  function formatError(o) {
+    if ( o.error ) {
+      o.error = {
+        code: o.error.error_code,
+        message: o.error.error_msg
+      };
+    }
+  }
+
+  hello.init({
+    vkontakte: {
+      name: 'VKontakte',
+
+      login: function(p) {
+        p.options.window_width = 580;
+        p.options.window_height = 400;        
+      },
+
+      oauth : {
+        version : 2,
+        auth : 'https://oauth.vk.com/authorize',
+        grant : 'https://oauth.vk.com/access_token'
+      },
+
+      base: 'https://api.vk.com/method/',
+
+      get: {
+        'me': 'users.get'
+      },
+
+      wrap: {
+        'me': function(res) {
+          formatError(res);
+          return res;
+        }
+      }
+    }
+  });
 
 })(hello);
 
