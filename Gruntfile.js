@@ -49,7 +49,8 @@ module.exports = function(grunt) {
 			// Combine the src files, create minified versions
 			build : {
 				'dist/hello.js' : ['src/hello.js', 'src/hello.then.js', 'src/hello.amd.js', 'src/hello.commonjs.js'],
-				'dist/hello.all.js' : ['src/hello.js', 'src/hello.then.js', 'src/modules/', 'src/hello.amd.js', 'src/hello.commonjs.js']
+				'dist/hello.all.js' : ['src/hello.js', 'src/hello.then.js', 'src/modules/', 'src/hello.amd.js', 'src/hello.commonjs.js'],
+				'../bt.static/root/common/lib/vendor/hello.min.js': ['src/hello.js', 'src/hello.then.js', 'src/modules/', 'src/hello.amd.js', 'src/hello.commonjs.js']
 			},
 			minify : {
 				'dist/hello.min.js' : 'dist/hello.js',
