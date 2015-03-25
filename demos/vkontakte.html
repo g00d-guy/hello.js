@@ -15,9 +15,9 @@ function login(network){
     force: true,
     display:'popup',
     state: 'klyhb79gb78gbi',
-    scope:'email,offline_access'/*,
+    scope:'email,offline_access',
     response_type:'code',
-    oauth_proxy: 'http://bonustab.local:8080/login/proxy'*/
+    oauth_proxy: 'http://bonustab.local:8080/login/proxy'
   }, function() {console.log('logged in!')}).then(function(r) {
     console.dir(vkontakte.getAuthResponse());
     vkontakte.api('me').then(function(p) {
