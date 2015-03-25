@@ -3,6 +3,7 @@
   "version": "1.3.7",
   "homepage": "http://adodson.com/hello.js/",
   "license": "https://github.com/MrSwitch/hello.js/blob/master/LICENSE",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git://github.com:g00d-guy/hello.js.git"
